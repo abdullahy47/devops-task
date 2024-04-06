@@ -1,0 +1,35 @@
+version: "3.7"
+services:
+  webserver:
+    image: newversion
+    restart: always
+    depends_on:
+    - mssql
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./app:/var/www/html
+    environment:
+      host: localhost
+      db: db_vero_digital
+      user: sa
+      pass: Un!q@to2023
+      SITE_URL: http://localhost
+    networks:
+      - test
+  
+  mssql: 
+    image: mssqlversion
+
+    environment:
+      pass: pass
+      db: db_vero_digital
+      user: sa
+      host: localhost
+    networks:
+    - test
+
+networks:
+  test:
+    external: true
