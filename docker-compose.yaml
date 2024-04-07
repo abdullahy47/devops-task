@@ -1,35 +1,24 @@
-version: "3.7"
+version: '3.8'
 services:
-  webserver:
-    image: newversion
-    restart: always
-    depends_on:
-    - mssql
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./app:/var/www/html
-    environment:
-      host: localhost
-      db: db_vero_digital
-      user: sa
-      pass: Un!q@to2023
-      SITE_URL: http://localhost
+  mssql-server:
+    build:
+      context: .
+      dockerfile: Dockerfile-mssql
+    # ports:
+    # - "1433:1433"
     networks:
       - test
-  
-  mssql: 
-    image: mssqlversion
 
-    environment:
-      pass: pass
-      db: db_vero_digital
-      user: sa
-      host: localhost
+  web-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - mssql-server
     networks:
-    - test
+      - test
 
 networks:
   test:
-    external: true

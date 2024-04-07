@@ -29,9 +29,9 @@ RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 EXPOSE 80
 
 # Set working directory
-COPY ./app/index.php /var/www/html 
+COPY ./QuickDbTest.php /var/www/html 
 # SONRADAN EKLEDİM COPY SATIRINI
 WORKDIR /var/www/html
 
 # Start your application (if required)
-CMD ["php", "index.php"]
+CMD ["php", "QuickDbTest.php"]
