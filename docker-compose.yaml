@@ -1,25 +1,23 @@
-version: '3.8'
-services:
-  mssql-server:
-    build:
-      context: .
-      dockerfile: mssql2.dockerfile
-    
-    # ports:
-    # - 1433:1433
-    networks:
-      - my-network
+version: "3.7"
 
-  web-server:
-    build:
-      context: .
-      dockerfile: webserver2.dockerfile
+services:
+  database:
+    build: .
+    container_name: database
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Un!q@to2023
+      - MSSQL_PID=Developer
     ports:
-      - "5050:80"
+      - "1433:1433"
+  
+  myapp:
+    build: ./php/.  
+    container_name: myapp
+    restart: always
     depends_on:
-      - mssql-server
-    networks:
-      - my-network
-      
-networks:
-  my-network:
+      - database
+    ports:
+      - "80:80"
+    
+
